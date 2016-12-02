@@ -29,7 +29,7 @@ namespace PoC.Api
 
 
             services
-                //.AddServiceDiscovery()
+                .UseServiceDiscovery()
                 .AddMvc();
 
         }
