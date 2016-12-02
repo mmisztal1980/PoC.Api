@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PoC.ServiceDiscovery;
 
 namespace PoC.Api
 {
@@ -25,10 +26,10 @@ namespace PoC.Api
         {
             // Add framework services.
 
-            
+
 
             services
-                //.AddServiceDiscovery()
+                .UseServiceDiscovery()
                 .AddMvc();
 
         }
