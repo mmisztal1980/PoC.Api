@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PoC.ServiceDiscovery;
+using PoC.ServiceDiscovery.Consul;
 
 namespace PoC.Api
 {
@@ -16,7 +17,7 @@ namespace PoC.Api
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = builder.Build();            
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -29,7 +30,13 @@ namespace PoC.Api
 
 
             services
-                .UseServiceDiscovery()
+                .AddServiceDiscovery(serviceDiscovery => serviceDiscovery
+                    .UseConsul()
+                        .RegisterApplication("PoC.Api")
+                        .WithAddress("http://localhost:5000")
+                        .WithHttpCheck("")
+                        .WithCpuCheck()
+                        .WithDiskCheck())
                 .AddMvc();
 
         }
